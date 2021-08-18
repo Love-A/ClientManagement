@@ -1,6 +1,24 @@
-$ToolPath = ""
-$DistributionPoints = @(
+# Site configuration
+$SiteCode = "PS1" # Site code 
+$ProviderMachineName = "CM01.corp.viamonstra.com" # SMS Provider machine name
 
+# Customizations
+$initParams = @{}
+
+# Import the ConfigurationManager.psd1 module 
+if((Get-Module ConfigurationManager) -eq $null) {
+    Import-Module "$($ENV:SMS_ADMIN_UI_PATH)\..\ConfigurationManager.psd1" @initParams 
+}
+
+
+# Set the current location to be the site code.
+Set-Location "$($SiteCode):\" @initParams
+
+
+Set-Location -Path $env:SystemDrive
+$ToolPath = "\\CM01\E$\Program Files\Microsoft Configuration Manager\cd.latest\SMSSETUP\TOOLS\ContentLibraryCleanup"
+$DistributionPoints = @(
+    "Cd1"
 )
 
 if ($DistributionPoints -eq "") {
@@ -8,14 +26,14 @@ if ($DistributionPoints -eq "") {
         $DistributionPoints = @(Get-CMDistributionPoint -ErrorAction Stop).NetworkOSPath
     }
     catch {
-        Write-Output "Could not get DistributionPoints": $($_.Exception.Message); Exit 1
+        Write-Output "Could not get DistributionPoints: $($_.Exception.Message)"; Exit 1
     }
 }
 
-$TrimedDPName = $DistributionPoints.Trim("\")
+$TrimmedDPName = $DistributionPoints.trim("\")
 
 #Set Params and run CleanupTool
-foreach ($DP in $TrimedDPName) {
+foreach ($DP in $TrimmedDPName) {
     if ($DP -like "*DPServer*") {
         Write-Output "$DP found in exceptionlist, skipping..."
     }
@@ -23,8 +41,8 @@ foreach ($DP in $TrimedDPName) {
         $ContentLibCleanupTool = @{
             FilePath               = "$ToolPath\ContentLibraryCleanup.exe"
             ArgumentList           = @(
-                "/DP $DP"
-                "/Mode $Mode"
+                "/DP $DP", `
+                "/Mode $Mode", `
                 "/q"
             )
             Wait                   = $true
@@ -38,3 +56,4 @@ foreach ($DP in $TrimedDPName) {
             Write-Output "Could not start process: $($_.Exception.Message)"; Exit 1
         }
     }
+}
