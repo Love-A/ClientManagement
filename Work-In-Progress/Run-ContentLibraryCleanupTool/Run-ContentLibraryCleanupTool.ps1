@@ -1,3 +1,8 @@
+<#
+cmdline example: 
+powershell.exe -executionpolicy bypass -file \\cm01\source\Script\Run-ContentCleanupTool.ps1 -ToolPath "\\cm01\source\Script" -ProviderMachineName "CM01.corp.com" -SiteCode "PS1" -Mode "WhatIf"
+#>
+
 Param(
     [Parameter(Mandatory = $True,
         HelpMessage = "Enter UNCPath to 'ContentLibraryCleanup.exe' location, e.g \\Server\c$\Temp'")]
@@ -21,7 +26,13 @@ Param(
 
     [Parameter(Mandatory = $False,
         HelpMessage = "Enter the FQDN of a DP if you want the tool ran on just one and not all")]
-    $DistributionPoints = @()
+    $DistributionPoints = @(),
+
+    [Parameter(Mandatory = $False,
+    HelpMessage = "Enter the FQDN of a DP if you want the tool ran on just one and not all")]
+    $ExcludedDistributionPoints = @(
+    "CM01.corp.viamonstra.com"
+    )
 )
 
 # Customizations
@@ -61,7 +72,7 @@ $TrimmedDPName = $DistributionPoints.trim("\")
 
 #Set Params and run CleanupTool
 foreach ($DP in $TrimmedDPName) {
-    if ($DP -like "*DPServer*") {
+    if ($DP -in $ExcludedDistributionPoints) {
         Write-Output "$DP found in exceptionlist, skipping..."
     }
     Else {
