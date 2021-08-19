@@ -1,6 +1,20 @@
 <#
-cmdline example: 
-powershell.exe -executionpolicy bypass -file \\cm01\source\Script\Run-ContentCleanupTool.ps1 -ToolPath "\\cm01\source\Script" -ProviderMachineName "CM01.corp.com" -SiteCode "PS1" -Mode "WhatIf"
+.SYNOPSIS
+    Use the content library cleanup command-line tool to remove content that's no longer associated with an object on a distribution point. 
+    This type of content is called orphaned content.
+    
+    https://docs.microsoft.com/en-us/mem/configmgr/core/plan-design/hierarchy/content-library-cleanup-tool
+    
+.PARAMETERS
+    $ToolPath = Path to the folder containing the "ContentLibraryCleanup.exe", i  move it from the defualt folder, and then run the script.
+    $ProviderMachineName = The CM env Server FQDN.
+    $SiteCode = Your CM SiteCode.
+    $Mode = set the tool to run in either WhatIf, or Delete, read more on MS page.
+    $DistributionPoints = Enter one or more to run on specific DP's, leave blank if you want it to run on all your DP's.
+    $ExcludedDistributionPoints = Add FQDN's to DPs that you want the tool to NOT run on.
+    
+.EXAMPLE
+    powershell.exe -executionpolicy bypass -file \\cm01\source\Script\Run-ContentCleanupTool.ps1 -ToolPath "\\cm01\source\Script" -ProviderMachineName "CM01.corp.com" -SiteCode "PS1" -Mode "WhatIf"
 #>
 
 Param(
