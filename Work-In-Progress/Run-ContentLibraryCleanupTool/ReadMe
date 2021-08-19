@@ -1,0 +1,2 @@
+cmdline example: 
+powershell.exe -executionpolicy bypass -file \\cm01\source\Script\Run-ContentCleanupTool.ps1 -ToolPath "\\cm01\source\Script" -ProviderMachineName "CM01.corp.com" -SiteCode "PS1" -Mode "WhatIf"
