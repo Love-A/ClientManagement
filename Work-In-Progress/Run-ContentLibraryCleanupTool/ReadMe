@@ -1,2 +1,15 @@
-cmdline example: 
-powershell.exe -executionpolicy bypass -file \\cm01\source\Script\Run-ContentCleanupTool.ps1 -ToolPath "\\cm01\source\Script" -ProviderMachineName "CM01.corp.com" -SiteCode "PS1" -Mode "WhatIf"
+FROM MS
+
+Content library cleanup tool
+08/02/2021
+
+Applies to: Configuration Manager (current branch)
+
+Use the content library cleanup command-line tool to remove content that's no longer associated with an object on a distribution point. This type of content is called orphaned content. This tool replaces older versions of similar tools released for past Configuration Manager products.
+
+The tool only affects the content on the distribution point that you specify when you run the tool. The tool can't remove content from the content library on the site server.
+
+If you remove content from a distribution point while the site system is offline, an orphaned record can exist in WMI. Over time, this behavior can eventually lead to a warning status on the distribution point. 
+To mitigate the issue in version 2006 and earlier, you had to manually remove the orphaned entries from WMI. 
+Making a mistake during this process could cause more severe issues with the server. Starting in version 2010, the tool can also remove orphaned content records from the WMI provider on a distribution point.
+Find ContentLibraryCleanup.exe in CD.Latest\SMSSETUP\TOOLS\ContentLibraryCleanup on the site server. For more information on this location, see The CD.Latest folder.
