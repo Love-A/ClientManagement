@@ -14,6 +14,7 @@
     The tool doesn't support removing content from the site server, which has a single content library. When the site server also has the distribution point role, if a package isn't targeted to the server, the package is still in the single content library.
     The tool doesn't support a content-enabled cloud management gateway.
     The user account that runs the tool must have permissions the same as the Full Administrator security role in Configuration Manager.
+    __________
     
     You can run this script on-demand to have the tool cleanup specific DPs, or you can have it cycle through all of them.
     It can also be put up as a schedueled task, see Example for example on a cmdline / action to run.
