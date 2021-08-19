@@ -6,7 +6,18 @@
     This type of content is called orphaned content.
     
     https://docs.microsoft.com/en-us/mem/configmgr/core/plan-design/hierarchy/content-library-cleanup-tool
+ 
+ .DESCRIPTION
+    PREREQs(from MS):
+    Only run the tool against a single distribution point at a time.
+    Run it directly on the server that hosts the distribution point to clean up, or remotely from another computer.
+    The tool doesn't support removing content from the site server, which has a single content library. When the site server also has the distribution point role, if a package isn't targeted to the server, the package is still in the single content library.
+    The tool doesn't support a content-enabled cloud management gateway.
+    The user account that runs the tool must have permissions the same as the Full Administrator security role in Configuration Manager.
     
+    You can run this script on-demand to have the tool cleanup specific DPs, or you can have it cycle through all of them.
+    It can also be put up as a schedueled task, see Example for example on a cmdline / action to run.
+  
 .PARAMETERS
     $ToolPath = Path to the folder containing the "ContentLibraryCleanup.exe", i  move it from the defualt folder, and then run the script.
     $ProviderMachineName = The CM env Server FQDN.
