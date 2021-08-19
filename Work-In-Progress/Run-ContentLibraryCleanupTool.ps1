@@ -24,8 +24,6 @@ Param(
     $DistributionPoints = @()
 )
 
-
-
 # Customizations
 $initParams = @{}
 $initParams.Add("ErrorAction", "Stop")
@@ -40,8 +38,10 @@ if ((Get-PSDrive -Name $SiteCode -PSProvider CMSite -ErrorAction SilentlyContinu
     New-PSDrive -Name $SiteCode -PSProvider CMSite -Root $ProviderMachineName @initParams
 }
 
+Set-Location "$($SiteCode):\" @initParams
+
 # If no DP specified, get all availible DP's in CM Env
-if ($DistributionPoints -eq 0) {
+if ($DistributionPoints.Count -eq 0) {
     try {
         $DistributionPoints = @(Get-CMDistributionPoint -ErrorAction Stop).NetworkOSPath
     }
